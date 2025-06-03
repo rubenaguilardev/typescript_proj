@@ -22,11 +22,11 @@ let cashInRegister: number = 100
 let orderQueue: Order[] = []
 
 
-function addNewPizza(pizza: Pizza) {
+function addNewPizza(pizza: Pizza): void {
     menu.push(pizza)
 }
 
-function placeOrder(pizzaName: string) {
+function placeOrder(pizzaName: string): Order | undefined {
     const selectedPizza = menu.find(pizza => pizza.name === pizzaName)
     if (!selectedPizza) {
         console.error(`${pizzaName} does not exist in the menu`)
@@ -38,7 +38,7 @@ function placeOrder(pizzaName: string) {
     return newOrder
 }
 
-function completeOrder(orderId: number) {
+function completeOrder(orderId: number): Order | undefined {
     const foundOrder = orderQueue.find(order => order.id === orderId)
     if (!foundOrder) {
         console.error(`${orderId} does not exist`)
@@ -48,8 +48,10 @@ function completeOrder(orderId: number) {
     return foundOrder
 }
 
-function getPizzaDetail(identifier: string | number) {
-    
+function getPizzaDetail(identifier: string | number): Pizza | undefined{
+    return typeof identifier === 'string' ?
+        menu.find(pizza => pizza.name.toLowerCase() === identifier.toLowerCase()) :
+        menu.find(pizza => pizza.id === identifier)
 }
 
 addNewPizza({ id: 5, name: "Chicken Bacon Ranch", price: 12 })
